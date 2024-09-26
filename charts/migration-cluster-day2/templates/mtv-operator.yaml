@@ -35,3 +35,33 @@ spec:
   feature_validation: 'true'
   feature_volume_populator: 'true'
 
+---
+apiVersion: mtv.kubevirt.io/v1beta1
+kind: Provider
+metadata:
+  name: vmware-provider
+  namespace: {{ .Values.mtvOperator.subscription.namespace }}
+  labels:
+    app: mtv
+spec:
+  type: vsphere
+  url: "https://vcenter.example.com/sdk"
+  secret:
+    name: vmware-credentials
+    namespace: mtv-operator
+  settings:
+    insecureSkipVerify: true
+status:
+  conditions:
+    - type: Ready
+      status: "True"
+      reason: "Connected"
+      message: "The provider is ready to use"
+  lastSyncTime: "2024-09-25T12:00:00Z"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vmware-credentials
+  namespace: {{ .Values.mtvOperator.subscription.namespace }}
+
