@@ -1,0 +1,68 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: vddk
+  namespace: {{ .Values.mtvOperator.subscription.namespace }}
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: "vddk:latest"
+  source:
+    dockerfile: |
+      FROM registry.access.redhat.com/ubi9/ubi-micro
+      ADD http://mtv-init/vmare/vddk.tar.gz /vmware-vix-disklib-distrib
+      ENTRYPOINT ["cp", "-r", "/vmware-vix-disklib-distrib", "/opt"]
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: vddk
+  namespace: default
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+  - annotations: null
+    generation: 3
+    importPolicy:
+      importMode: Legacy
+    name: latest
+    referencePolicy:
+      type: Source
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  parallelism: 1    
+  completions: 1    
+  activeDeadlineSeconds: 1800 
+  backoffLimit: 6   
+  template:         
+    metadata:
+      name: vddk-tasks
+    spec:
+      containers:
+      - name: vddk-tasks
+        image: registry.access.redhat.com/ubi9/ubi-minimal
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            set -o errexit
+            # check if user inputs are done
+            curl --fail mtv-init/vmware/done
+
+            curl -O downloads.openshift-console.svc.cluster.local/amd64/linux/oc.tar 
+            untar oc.tar && chmod +x oc
+           
+            # start the build of vddk
+            oc start-build vddk
+
+            # update the vmware-credentials secret
+            source <(curl -o - mtv-init/vmware/env)
+            oc set data secret/vmware-credentials username="$username" password="$password" url="$url"
+
+      restartPolicy: OnFailure    
+#...

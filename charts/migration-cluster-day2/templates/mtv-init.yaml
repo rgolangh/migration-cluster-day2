@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mtv-init 
+  name:  mtv-init
+  namespace: {{ .Values.mtvOperator.subscription.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mtv-init
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: mtv-init
+    spec:
+      containers:
+      - image: quay.io/rgolangh/mtv-init
+        name: mtv-init
+        ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mtv-init
+  name: mtv-init
+  namespace: {{ .Values.mtvOperator.subscription.namespace }}
+spec:
+  ports:
+  - name: 80-8080
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: mtv-init
+  type: ClusterIP
+status:
+  loadBalancer: {}
+
