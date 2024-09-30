@@ -4,6 +4,8 @@ metadata:
   name: vddk
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
 spec:
+  strategy:
+    dockerStrategy: {}
   output:
     to:
       kind: ImageStreamTag
@@ -11,14 +13,14 @@ spec:
   source:
     dockerfile: |
       FROM registry.access.redhat.com/ubi9/ubi-micro
-      ADD http://mtv-init/vmare/vddk.tar.gz /vmware-vix-disklib-distrib
+      ADD {{ printf "http://mtv-init.%s.cluster.local/vmare/vddk.tar.gz" .Values.mtvOperator.subscription.namespace }} /vmware-vix-disklib-distrib
       ENTRYPOINT ["cp", "-r", "/vmware-vix-disklib-distrib", "/opt"]
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
   name: vddk
-  namespace: default
+  namespace: {{ .Values.mtvOperator.subscription.namespace }}
 spec:
   lookupPolicy:
     local: true
@@ -51,8 +53,8 @@ spec:
         args:
           - |
             set -o errexit
-            # check if user inputs are done
-            curl --fail mtv-init/vmware/done
+            # check if user supplied all inputs
+            curl --fail mtv-init.mtv-operator.svc.cluster.local/vmware/done
 
             curl -O downloads.openshift-console.svc.cluster.local/amd64/linux/oc.tar 
             untar oc.tar && chmod +x oc
@@ -61,7 +63,7 @@ spec:
             oc start-build vddk
 
             # update the vmware-credentials secret
-            source <(curl -o - mtv-init/vmware/env)
+            source <(curl -o - mtv-init.mtv-operator.svc.cluster.local/vmware/env)
             oc set data secret/vmware-credentials username="$username" password="$password" url="$url"
 
       restartPolicy: OnFailure    

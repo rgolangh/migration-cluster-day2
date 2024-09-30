@@ -36,7 +36,7 @@ spec:
   feature_volume_populator: 'true'
 
 ---
-apiVersion: mtv.kubevirt.io/v1beta1
+apiVersion: forklift.konveyor.io/v1beta1
 kind: Provider
 metadata:
   name: vmware-provider
@@ -50,7 +50,7 @@ spec:
     name: vmware-credentials
     namespace: mtv-operator
   settings:
-    insecureSkipVerify: true
+    insecureSkipVerify: "true"
 status:
   conditions:
     - type: Ready
