@@ -38,6 +38,21 @@ spec:
   selector:
     app: mtv-init
   type: ClusterIP
-status:
-  loadBalancer: {}
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: mtv-init
+  namespace: {{ .Values.mtvOperator.subscription.namespace }}
+  labels:
+    app: mtv-init
+spec:
+  tls:
+    termination: edge
+  port:
+    targetPort: 8080
+  to:
+    kind: "Service"
+    name: mtv-init
+    weight: null
 

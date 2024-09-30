@@ -48,16 +48,9 @@ spec:
   url: "https://vcenter.example.com/sdk"
   secret:
     name: vmware-credentials
-    namespace: mtv-operator
+    namespace: {{ .Values.mtvOperator.subscription.namespace }}
   settings:
-    insecureSkipVerify: "true"
-status:
-  conditions:
-    - type: Ready
-      status: "True"
-      reason: "Connected"
-      message: "The provider is ready to use"
-  lastSyncTime: "2024-09-25T12:00:00Z"
+    vddkInitImage: image-registry.openshift-image-registry.svc:5000/mtv-operator/vddk:latest 
 ---
 apiVersion: v1
 kind: Secret
