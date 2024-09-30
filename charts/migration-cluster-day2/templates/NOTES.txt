@@ -1,5 +1,0 @@
-Installed assests:
-  - MTV operator
-  - NMState operator
-
-
