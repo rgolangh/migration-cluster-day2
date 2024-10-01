@@ -4,7 +4,7 @@ metadata:
   name: migration-cluster-day2 
 spec:
   connectionConfig:
-    url: "https://rgolangh.github.io/migration-cluster-preprep"
+    url: "https://rgolangh.github.io/migration-cluster-day2"
   values:
     # Values to override in the Helm chart
   install:
