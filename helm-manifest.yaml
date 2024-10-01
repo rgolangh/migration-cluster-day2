@@ -1,0 +1,21 @@
+apiVersion: helm.openshift.io/v1beta1
+kind: HelmChartRepository
+metadata:
+  name: migration-cluster-day2 
+spec:
+  connectionConfig:
+    url: "https://rgolangh.github.io/migration-cluster-preprep"
+  values:
+    # Values to override in the Helm chart
+    service:
+      type: ClusterIP
+  install:
+    #noHooks: false
+    #disableCRDHook: true
+    timeout: 300
+  upgrade:
+    force: true
+    cleanupOnFail: true
+  rollback:
+    enable: true
+
