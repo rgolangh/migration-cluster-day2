@@ -83,31 +83,37 @@
   <main class="pf-c-page__main pf-l-page__main-section pf-m-light">
     <div class="pf-l-flex pf-m-column pf-m-align-items-center">
       <div class="pf-c-card pf-m-shadow-lg pf-u-p-lg pf-u-m-lg" style="max-width: 500px;">
-        <h1 class="pf-c-title pf-m-2xl pf-u-text-align-center">VMWare Provider Setup</h1>
+        <h1 class="pf-c-title pf-m-2xl pf-u-text-align-center">Create Source Provider</h1>
         <form action="/upload" method="post" enctype="multipart/form-data" class="pf-c-form pf-l-grid pf-m-gutter">
           <div class="pf-c-form__group pf-l-grid__item pf-m-12-col">
-              <label for="vddk" class="pf-c-form__label">VDDK File</label>
-              (dowonload from <a href="https://developer.vmware.com/web/sdk/7.0/vddk" target="_blank">vmware</a>)
+            <label for="vddk" class="pf-c-form__label">VDDK File</label>
+            <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
             <input type="file" name="vddk" id="vddk" class="pf-c-form-control" required />
+            <a href="https://developer.vmware.com/web/sdk/7.0/vddk" target="_blank">Download the vddk file from VMWare</a>
+          </div>
+
+          <div class="pf-c-form__group pf-l-grid__item pf-m-12-col">
+            <label for="url" class="pf-c-form__label">vSphere URL</label>
+            <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
+            <input type="url" name="url" id="url" class="pf-c-form-control" required />
           </div>
 
           <div class="pf-c-form__group pf-l-grid__item pf-m-12-col">
             <label for="username" class="pf-c-form__label">vSphere Username</label>
+            <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
             <input type="text" name="username" id="username" class="pf-c-form-control" required />
           </div>
 
           <div class="pf-c-form__group pf-l-grid__item pf-m-12-col">
             <label for="password" class="pf-c-form__label">vSphere Password</label>
+            <span class="pf-c-form__label-required" aria-hidden="true">&#42;</span>
             <input type="password" name="password" id="password" class="pf-c-form-control" required />
           </div>
 
-          <div class="pf-c-form__group pf-l-grid__item pf-m-12-col">
-            <label for="url" class="pf-c-form__label">vSphere URL</label>
-            <input type="url" name="url" id="url" class="pf-c-form-control" required />
-          </div>
+
 
           <div class="pf-l-flex pf-m-justify-content-center pf-u-mt-md">
-            <button type="submit" class="pf-c-button pf-m-primary">Submit</button>
+            <button type="submit" class="pf-c-button pf-m-primary">Create</button>
           </div>
         </form>
       </div>
