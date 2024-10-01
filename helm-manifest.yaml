@@ -7,8 +7,6 @@ spec:
     url: "https://rgolangh.github.io/migration-cluster-preprep"
   values:
     # Values to override in the Helm chart
-    service:
-      type: ClusterIP
   install:
     #noHooks: false
     #disableCRDHook: true
