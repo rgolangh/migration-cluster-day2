@@ -50,7 +50,7 @@ spec:
     name: vmware-credentials
     namespace: {{ .Values.mtvOperator.subscription.namespace }}
   settings:
-    vddkInitImage: image-registry.openshift-image-registry.svc:5000/mtv-operator/vddk:latest 
+    vddkInitImage: image-registry.openshift-image-registry.svc:5000/{{ .Values.mtvOperator.subscription.namespace }}/vddk:latest
 ---
 apiVersion: v1
 kind: Secret
