@@ -40,3 +40,20 @@ architecture-beta
     group mta(server)[MTA] in targetcluster
     service mtaAPI[migration CRD] in mta
 ```
+
+
+```mermaid
+architecture-beta
+
+        MA[mtv-init Service] 
+        MA --> MB[HTTP API: /, /upload, /vmware, /vmware/done]
+        
+        MB --> MC[vddk-task Job]
+        MC --> MD[Download vddk.tar.gz]
+        MC --> ME[Trigger vddk build config<br>to build image]
+
+        ME --> MF[vddk build config]
+
+        MC --> MG[Update MTV Operator Resource<br>with vddk Image URL]
+        MG --> MH[mtv-operator Resource]
+```
