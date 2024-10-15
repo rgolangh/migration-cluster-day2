@@ -10,9 +10,11 @@ spec:
   - ReadWriteOnce 
   resources:
     requests:
-      storage: 20Gi
+      # we require the image registry for building the vddk image, we don't need more than 
+      # 50Gi at the moment
+      storage: 50Gi
 
 ---
 # changes to the image registry config resouce
-#oc patch config.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"storage":{"pvc":{"claim":"image-registry-storage"}}}}'
+#oc patch config.Imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"storage":{"pvc":{"claim":"image-registry-storage"}}}}'
 ---
