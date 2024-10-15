@@ -7,7 +7,7 @@ metadata:
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: local-storage-operator-group
+  name: lvm-storage-operator-group
   namespace: {{ .Values.lvmstorageOperator.subscription.namespace }}
 spec:
   targetNamespaces:
@@ -16,12 +16,12 @@ spec:
 apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: local-storage-operator 
+  name: lvm-storage-operator 
   namespace: {{ .Values.lvmstorageOperator.subscription.namespace }}
 spec:
   channel: {{ .Values.lvmstorageOperator.subscription.channel }}
   installPlanApproval: Automatic
-  name: local-storage-operator
+  name: lvm-storage-operator
   source: redhat-operators 
   sourceNamespace: openshift-marketplace
 ---
@@ -43,4 +43,23 @@ spec:
         name: thin-pool-1
         overprovisionRatio: 10
         sizePercent: 90
+---
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    description: Provides RWO and RWOP Filesystem & Block volumes
+    storageclass.kubernetes.io/is-default-class: "true"
+  labels:
+    owned-by.topolvm.io/group: lvm.topolvm.io
+    owned-by.topolvm.io/kind: LVMCluster
+    owned-by.topolvm.io/namespace: openshift-storage
+  name: lvms-vg1
+parameters:
+  csi.storage.k8s.io/fstype: xfs
+  topolvm.io/device-class: vg1
+provisioner: topolvm.io
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
 
