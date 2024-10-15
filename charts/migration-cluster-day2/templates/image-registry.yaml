@@ -1,0 +1,18 @@
+---
+# pvc for the image registry for RWO - used with LVM storage backend
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: image-registry-storage 
+  namespace: openshift-image-registry 
+spec:
+  accessModes:
+  - ReadWriteOnce 
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+# changes to the image registry config resouce
+#oc patch config.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"storage":{"pvc":{"claim":"image-registry-storage"}}}}'
+---
