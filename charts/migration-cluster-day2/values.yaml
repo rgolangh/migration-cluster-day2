@@ -1,15 +1,20 @@
 mtvOperator:
   subscription:
-    namespace: openshift-mtv 
-    channel: release-v2.6 # the recent z version is 2.6.7 
+    namespace: openshift-mtv
+    channel: release-v2.6 # the recent z version is 2.6.7
     installPlanApproval: Automatic # whether the update should be installed automatically
     source: redhat-operators # name of the catalog source
-    targetNamespace: openshift-mtv
+    sourceNamespace: openshift-marketplace 
 nmstateOperator:
   subscription:
-    namespace: openshift-nmstate 
-    channel: stable 
+    namespace: openshift-nmstate
+    channel: stable
     installPlanApproval: Automatic # whether the update should be installed automatically
     source: redhat-operators # name of the catalog source
-    targetNamespace: openshift-nmstate 
+localStorageOperator:
+  subscription:
+    namespace: openshift-local-storage
+    channel: stable
+    installPlanApproval: Automatic # whether the update should be installed automatically
+    source: redhat-operators # name of the catalog source
 
