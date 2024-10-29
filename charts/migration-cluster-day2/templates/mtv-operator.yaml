@@ -34,10 +34,9 @@ metadata:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "5"
 spec:
-  olm_managed: true
-  #feature_ui_plugin: 'true'
-  #feature_validation: 'true'
-  #feature_volume_populator: 'true'
+  feature_ui_plugin: "true"
+  feature_validation: "true"
+  feature_volume_populator: "true"
 ---
 apiVersion: forklift.konveyor.io/v1beta1
 kind: Provider
