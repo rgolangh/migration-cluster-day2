@@ -3,8 +3,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: image-registry-storage 
+  name: image-registry-storage
   namespace: openshift-image-registry 
+  lables: {{ include "migration-cluster-day2.labels" . | nindent 4 }}
 spec:
   accessModes:
   - ReadWriteOnce 
