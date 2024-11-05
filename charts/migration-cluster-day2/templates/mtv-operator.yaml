@@ -6,7 +6,7 @@ metadata:
   # prevent the namespace deletion because in some sceneraious the namespace
   # is not removed and stays in terminating state.
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-1"
 ---
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
