@@ -42,8 +42,8 @@ kind: StorageClass
 metadata:
   annotations:
     description: Provides RWO and RWOP Filesystem & Block volumes
-    helm.sh/hook: post-install,post-upgrade
-    helm.sh/hook-weight: "5"
+    #    helm.sh/hook: post-install,post-upgrade
+    #helm.sh/hook-weight: "5"
     storageclass.kubernetes.io/is-default-class: "true"
   labels:
     owned-by.topolvm.io/group: lvm.topolvm.io
@@ -58,39 +58,12 @@ reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
 
 ---
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: lvms-crds-exists
-  namespace: {{ .Values.lvmsOperator.subscription.namespace }}
-  annotations:
-    helm.sh/hook: post-install,post-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation
-    "helm.sh/hook-weight": "1"
-spec:
-  template:
-    metadata:
-      name: lvms-crds-exists
-    spec:
-      restartPolicy: Never
-      serviceAccountName: migration-cluster-day2-installer
-      containers:
-        - name: cleanup
-          image: registry.redhat.io/openshift4/ose-cli:latest
-          command:
-            - "bin/bash"
-            - "-c"
-          args:
-            - |
-              # check that the relevant CRDs are there
-              oc get lvmclusters.lvm.topolvm.io
----
 apiVersion: lvm.topolvm.io/v1alpha1
 kind: LVMCluster
 metadata:
   annotations:
-    helm.sh/hook: post-install,post-upgrade
-    "helm.sh/hook-weight": "10"
+    #    helm.sh/hook: post-install,post-upgrade
+    #"helm.sh/hook-weight": "10"
   finalizers:
     - lvmcluster.topolvm.io
   generation: 1
@@ -107,30 +80,3 @@ spec:
         name: thin-pool-1
         overprovisionRatio: 10
         sizePercent: 90
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: lvms-cleanups
-  namespace: {{ .Values.lvmsOperator.subscription.namespace }}
-  annotations:
-    helm.sh/hook: pre-delete
-    "helm.sh/hook-delete-policy": before-hook-creation
-    "helm.sh/hook-weight": "1"
-spec:
-  template:
-    metadata:
-      name: lvms-cleanups
-    spec:
-      restartPolicy: Never
-      containers:
-        - name: cleanup
-          image: registry.redhat.io/openshift4/ose-cli:latest
-          command:
-            - "bin/bash"
-            - "-c"
-          args:
-            - |
-              # cleanups if needed
-              # oc delete resources
-
