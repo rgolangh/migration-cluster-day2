@@ -30,8 +30,9 @@ kind: NMState
 metadata:
   name: nmstate
   namespace: {{ .Values.nmstateOperator.subscription.namespace }}
+  labels: {{ include "migration-cluster-day2.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "-5"
+    #    "helm.sh/hook": post-install
+    #"helm.sh/hook-weight": "10"
 spec: {}
 

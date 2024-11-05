@@ -35,8 +35,8 @@ metadata:
   name: forklift-controller
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": "5"
+    #   "helm.sh/hook": post-install,post-upgrade
+    #"helm.sh/hook-weight": "5"
 spec:
   feature_ui_plugin: "true"
   feature_validation: "true"
@@ -50,8 +50,8 @@ metadata:
   labels:
     app: mtv
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": "10"
+    #    "helm.sh/hook": post-install,post-upgrade
+    #"helm.sh/hook-weight": "10"
 spec:
   type: vsphere
   url: "https://vcenter.example.com/sdk"
@@ -68,62 +68,4 @@ metadata:
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
 ---
 
-
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: mtv-ready
-  namespace: {{ .Values.mtvOperator.subscription.namespace }}
-  annotations:
-    helm.sh/hook: post-install,post-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation
-    "helm.sh/hook-weight": "1"
-spec:
-  template:
-    metadata:
-      name: mtv-ready
-    spec:
-      restartPolicy: OnFailure
-      serviceAccountName: migration-cluster-day2-installer
-      containers:
-        - name: readyness 
-          image: registry.redhat.io/openshift4/ose-cli:latest
-          command:
-            - "bin/bash"
-            - "-c"
-          args:
-            - |
-              # check the forklift api exists otherwise we can't create a controllre
-              # because the hook will fail
-              oc get service forklift-api
-
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: mtv-cleanups
-  namespace: {{ .Values.mtvOperator.subscription.namespace }}
-  annotations:
-    helm.sh/hook: pre-delete
-    "helm.sh/hook-delete-policy": before-hook-creation
-    "helm.sh/hook-weight": "1"
-spec:
-  template:
-    metadata:
-      name: mtv-cleanups
-    spec:
-      restartPolicy: Never
-      serviceAccountName: migration-cluster-day2-installer
-      containers:
-        - name: cleanup
-          image: registry.redhat.io/openshift4/ose-cli:latest
-          command:
-            - "bin/bash"
-            - "-c"
-          args:
-            - |
-              # cleanups if needed
-              # remove csv because it is not labeled as a helm resource
-              oc delete csv -n openshift-mtv --all --force
 
