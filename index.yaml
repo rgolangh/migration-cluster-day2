@@ -3,6 +3,16 @@ entries:
   migration-cluster-day2:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-11-05T19:55:45.210069295Z"
+    description: A Helm chart for Kubernetes
+    digest: 7ef179dabdfabf67f851acbfe985b550c989f458e9c96b1f667fa031b5a8c828
+    name: migration-cluster-day2
+    type: application
+    urls:
+    - https://github.com/rgolangh/migration-cluster-day2/releases/download/migration-cluster-day2-0.0.9/migration-cluster-day2-0.0.9.tgz
+    version: 0.0.9
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-11-05T19:08:08.690708241Z"
     description: A Helm chart for Kubernetes
     digest: 1cd18b7764293ef398c6e69ecfcd03c75a2307d0e12ae5e183abbd24cdb6592d
@@ -61,4 +71,4 @@ entries:
     urls:
     - https://github.com/rgolangh/migration-cluster-preprep/releases/download/migration-cluster-day2-0.0.3/migration-cluster-day2-0.0.3.tgz
     version: 0.0.3
-generated: "2024-11-05T19:08:08.690735662Z"
+generated: "2024-11-05T19:55:45.210102337Z"
