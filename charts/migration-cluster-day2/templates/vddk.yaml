@@ -6,12 +6,15 @@ metadata:
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
   annotations:
     securitycontextconstraints.security.openshift.io: anyuid
+    argocd.argoproj.io/sync-wave: "1"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: mtv-initiator 
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 rules:
   - apiGroups: ["build.openshift.io"]
     resources: ["builds", "buildconfigs", "buildconfigs/instantiate"]
@@ -36,6 +39,8 @@ kind: RoleBinding
 metadata:
   name: mtv-initiator-binding
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 subjects:
   - kind: ServiceAccount
     name: mtv-initiator
@@ -50,6 +55,8 @@ kind: BuildConfig
 metadata:
   name: vddk
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   strategy:
     dockerStrategy: {}
@@ -68,6 +75,8 @@ kind: ImageStream
 metadata:
   name: vddk
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   lookupPolicy:
     local: true
@@ -85,6 +94,8 @@ kind: Job
 metadata:
   name: mtv-deps
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   parallelism: 1    
   completions: 1    
