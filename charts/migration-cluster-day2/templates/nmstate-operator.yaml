@@ -33,15 +33,3 @@ spec:
   source: redhat-operators 
   sourceNamespace: openshift-marketplace
 ---
-# don't try to create nmstate because argocd doesn't create cluster-scooped resources out of the box
-# apiVersion: nmstate.io/v1
-# kind: NMState
-# metadata:
-#   name: nmstate
-#   namespace: {{ .Values.nmstateOperator.subscription.namespace }}
-#   labels: {{ include "migration-cluster-day2.labels" . | nindent 4 }}
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "2"
-#     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-# spec: {}
-
