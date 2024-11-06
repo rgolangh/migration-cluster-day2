@@ -39,8 +39,8 @@ metadata:
   name: forklift-controller
   namespace: {{ .Values.mtvOperator.subscription.namespace }}
   annotations:
-    argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   feature_ui_plugin: "true"
   feature_validation: "true"
@@ -54,8 +54,8 @@ metadata:
   labels:
     app: mtv
   annotations:
-    argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   type: vsphere
   url: "https://vcenter.example.com/sdk"

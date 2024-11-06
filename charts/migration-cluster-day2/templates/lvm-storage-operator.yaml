@@ -61,8 +61,8 @@ apiVersion: lvm.topolvm.io/v1alpha1
 kind: LVMCluster
 metadata:
   annotations:
-    argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "30"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
   finalizers:
     - lvmcluster.topolvm.io
   generation: 1
