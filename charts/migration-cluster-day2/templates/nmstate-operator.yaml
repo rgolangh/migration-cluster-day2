@@ -12,8 +12,8 @@ metadata:
   name: nmstate-operator-group
   namespace: {{ .Values.nmstateOperator.subscription.namespace }}
   annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
-  argocd.argoproj.io/sync-wave: "1"
   targetNamespaces:
     - {{ .Values.nmstateOperator.subscription.namespace }}
 ---
