@@ -81,9 +81,7 @@ spec:
   lookupPolicy:
     local: true
   tags:
-  - annotations: null
-    generation: 3
-    importPolicy:
+  - importPolicy:
       importMode: Legacy
     name: latest
     referencePolicy:
