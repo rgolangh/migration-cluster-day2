@@ -21,9 +21,24 @@ this manifest will install the helm chart that adds the prerequeisites and confi
     - [x] install nmstate operator
     - [ ] controller to create NAD according to MTV plan  
 
-[!Note
-> argocd bug prevents creating rbac resources in user namespace - see this (KB page)[https://access.redhat.com/solutions/6012601]
-> 
+> [!Note]
+> 2 things that must be set for the argo application to deploy properly:
+> 1. an annotation on resources which need their CRD by prior waves. For example
+>    the LVMCluster have this:
+>     ```
+>     annotations:
+>       argocd.argoproj.io/sync-wave: "2"
+>       argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+>     ```
+>
+>     This makes sure the wave is after the operator is deployed so the CRD is there
+>     and that the CRD is okay to be missing in the dry run check
+>    
+> 2. Every target namespace we create needs this label so ArgoCD will have permissions to create resources there:
+>  ```
+>  labels:
+>    argocd.argoproj.io/managed-by: openshift-gitops
+>  ```
 
 # Architecture
 
