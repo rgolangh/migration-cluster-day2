@@ -21,6 +21,10 @@ this manifest will install the helm chart that adds the prerequeisites and confi
     - [x] install nmstate operator
     - [ ] controller to create NAD according to MTV plan  
 
+[!Note
+> argocd bug prevents creating rbac resources in user namespace - see this (KB page)[https://access.redhat.com/solutions/6012601]
+> 
+
 # Architecture
 
 ```mermaid

@@ -5,6 +5,7 @@ metadata:
   name: {{ .Values.nmstateOperator.subscription.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+  labels:
     argocd.argoproj.io/managed-by: openshift-gitops
 ---
 apiVersion: operators.coreos.com/v1
