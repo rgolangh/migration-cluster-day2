@@ -4,7 +4,7 @@
 A manifest that will be applied as part of the assisted installer setup
 this manifest will install the helm chart that adds the prerequeisites and configurations for MTV operator for vSphere 
 
-- helm chart to install the following assets:
+- A helm chart to be used with ArgoCD to install the following assets:
   - [ ] local storage
     - [ ] make sure storage class for kubevirt is annotated
   - [x] mtv-init service
