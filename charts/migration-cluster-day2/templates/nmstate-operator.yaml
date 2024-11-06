@@ -38,6 +38,7 @@ metadata:
   namespace: {{ .Values.nmstateOperator.subscription.namespace }}
   labels: {{ include "migration-cluster-day2.labels" . | nindent 4 }}
   annotations:
+    argocd.argoproj.io/hook: PostSync
     argocd.argoproj.io/sync-wave: "2"
 spec: {}
 
