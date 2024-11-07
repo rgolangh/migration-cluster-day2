@@ -116,8 +116,10 @@ spec:
         command: ["/bin/bash", "-c"]
         args:
           - |
-            set -o errexit
 
+            set -o errexit
+            set -x
+            
             echo ⌛ Waiting for the user to complete the survey at https://mtv-init-{{ .Values.mtvOperator.subscription.namespace }}.apps.clusterName.clusterDomeain
             until $(curl --fail --silent mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/done); do
               sleep 5
