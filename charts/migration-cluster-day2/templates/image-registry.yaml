@@ -1,4 +1,41 @@
 ---
+# Cluster Role for the installer
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: migration-cluster-day2-installer
+  namespace: openshift-image-registry 
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: migration-cluster-day2-installer
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+rules:
+  - apiGroups: ["imageregistry.operator.openshift.io"]
+    resources: ["configs"]
+    verbs: ["create", "update", "patch", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: migration-cluster-day2-installer-binding
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+subjects:
+  - kind: ServiceAccount
+    name: migration-cluster-day2-installer
+    namespace: openshift-image-registry 
+roleRef:
+  kind: ClusterRole
+  name: migration-cluster-day2-installer
+  apiGroup: rbac.authorization.k8s.io
+---
+
+---
 # pvc for the image registry for RWO - used with LVM storage backend
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -17,7 +54,38 @@ spec:
       # 50Gi at the moment
       storage: 40Gi
 
+
 ---
-# changes to the image registry config resouce
-#oc patch config.Imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"storage":{"pvc":{"claim":"image-registry-storage"}}}}'
----
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: image-registry-config
+  namespace: openshift-image-registry 
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  parallelism: 1
+  completions: 1
+  activeDeadlineSeconds: 604800
+  backoffLimit: 6
+  template:
+    metadata:
+      name: image-registry-tasks
+    spec:
+      serviceAccountName: migration-cluster-day2-installer
+      containers:
+      - name: image-registry-tasks
+        image: registry.access.redhat.com/ubi9/ubi-minimal
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            set -o errexit
+            set -x
+            
+            curl -O downloads.openshift-console.svc.cluster.local/amd64/linux/oc.tar 
+            microdnf install -y tar
+            tar -xvf oc.tar && chmod +x oc
+           
+            ./oc patch config.Imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"storage":{"pvc":{"claim":"image-registry-storage"}}}}'
+      restartPolicy: OnFailure
+#
