@@ -137,7 +137,7 @@ spec:
             ./oc set data secret/vmware-credentials user="$username" password="$password" insecureSkipVerify="true"
             # update url in vsphere provider
 
-            oc create -f - << EOF
+            ./oc create -f - << EOF
             apiVersion: forklift.konveyor.io/v1beta1
             kind: Provider
             metadata:
