@@ -86,6 +86,6 @@ spec:
             microdnf install -y tar
             tar -xvf oc.tar && chmod +x oc
            
-            ./oc patch configs.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"managedState": "Managed", "storage":{"pvc":{"claim":"image-registry-storage"}}}}'
+            ./oc patch configs.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"managementState": "Managed", "storage":{"pvc":{"claim":"image-registry-storage"}}}}'
       restartPolicy: OnFailure
 #
