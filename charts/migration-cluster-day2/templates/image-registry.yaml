@@ -15,7 +15,7 @@ spec:
     requests:
       # we require the image registry for building the vddk image, we don't need more than 
       # 50Gi at the moment
-      storage: 50Gi
+      storage: 40Gi
 
 ---
 # changes to the image registry config resouce
