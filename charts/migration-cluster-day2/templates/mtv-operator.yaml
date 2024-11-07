@@ -48,25 +48,6 @@ spec:
   feature_validation: "true"
   feature_volume_populator: "true"
 ---
-apiVersion: forklift.konveyor.io/v1beta1
-kind: Provider
-metadata:
-  name: vmware-provider
-  namespace: {{ .Values.mtvOperator.subscription.namespace }}
-  labels:
-    app: mtv
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-spec:
-  type: vsphere
-  url: "https://vcenter.example.com/sdk"
-  secret:
-    name: vmware-credentials
-    namespace: {{ .Values.mtvOperator.subscription.namespace }}
-  settings:
-    vddkInitImage: image-registry.openshift-image-registry.svc:5000/{{ .Values.mtvOperator.subscription.namespace }}/vddk:latest
----
 apiVersion: v1
 kind: Secret
 metadata:
