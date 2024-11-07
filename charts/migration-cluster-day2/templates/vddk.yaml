@@ -136,7 +136,26 @@ spec:
             source <(curl -o - mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/env)
             ./oc set data secret/vmware-credentials user="$username" password="$password" insecureSkipVerify="true"
             # update url in vsphere provider
-            ./oc patch provider vmware-provider --type=merge -p "{\"spec\": {\"url\": \"${url}/sdk\"}}" 
+
+            oc create -f - << EOF
+            apiVersion: forklift.konveyor.io/v1beta1
+            kind: Provider
+            metadata:
+              labels:
+                app: mtv
+                app.kubernetes.io/instance: mig
+              name: vmware-provider
+              namespace: openshift-mtv
+            spec:
+              secret:
+                name: vmware-credentials
+                namespace: openshift-mtv
+              settings:
+                sdkEndpoint: vcenter
+                vddkInitImage: image-registry.openshift-image-registry.svc:5000/openshift-mtv/vddk:latest
+              type: vsphere
+              url: $url
+            EOF
 
 
             
