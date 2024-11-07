@@ -143,21 +143,17 @@ spec:
             metadata:
               labels:
                 app: mtv
-                app.kubernetes.io/instance: mig
               name: vmware-provider
               namespace: openshift-mtv
             spec:
+              type: vsphere
+              url: "$url"
               secret:
                 name: vmware-credentials
                 namespace: openshift-mtv
               settings:
-                sdkEndpoint: vcenter
                 vddkInitImage: image-registry.openshift-image-registry.svc:5000/openshift-mtv/vddk:latest
-              type: vsphere
-              url: $url
             EOF
-
-
             
       restartPolicy: OnFailure    
 #...
