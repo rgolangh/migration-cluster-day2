@@ -1,25 +1,11 @@
-# migration-cluster-preprep
+# migration-cluster-day-2
 
-- custom manifest
-A manifest that will be applied as part of the assisted installer setup
-this manifest will install the helm chart that adds the prerequeisites and configurations for MTV operator for vSphere 
+The Day-2 configuration of a cluster for migration is setup using an ArgoCD application.
+See the installation instruction in charts/migration-cluster-day-2/README.md
 
-- A helm chart to be used with ArgoCD to install the following assets:
-  - [ ] local storage
-    - [ ] make sure storage class for kubevirt is annotated
-  - [x] mtv-init service
-        A service to help build vddk and mtv provider details using a simple web page
-    - [x] vSphere credentials and url 
-    - [x] vddk buildconfig
-    - [x] vddk image
-
-  - [x] mtv operator
-      - [x] configure mtv host
-      - [x] configure provider (depends on vsphere credentials)
- 
-  - [ ] network
-    - [x] install nmstate operator
-    - [ ] controller to create NAD according to MTV plan  
+This repo maintains 2 components:
+- the ArgoCD helm application in charts/migration-cluster-day-2
+- the mtv-init application
 
 > [!Note]
 > 2 things that must be set for the argo application to deploy properly:
@@ -41,6 +27,9 @@ this manifest will install the helm chart that adds the prerequeisites and confi
 >  ```
 
 # Architecture
+> [!Note]
+> Needs an update
+
 
 ```mermaid
 architecture-beta
