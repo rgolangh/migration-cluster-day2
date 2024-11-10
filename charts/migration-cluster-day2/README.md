@@ -1,34 +1,34 @@
-Migration Cluster Day2
+# Migration Cluster Day2
 
-This repository is meant to provide to means for Day2 operations on a target cluster for VM migrations.
+This repository is meant to provide the means for Day-2 operations on a target cluster for VM migrations.
+It should be used in this milestone only. Next milestone we would like to push most of this functionality into MTV.
 
 Some or all the items here may end up as an integral part of MTV, and for the time being we will make all efforts
 to automate and smooth the experience to the maximum we can.
 
-
-# Using this repo to prepare a migration cluster
-
-## Prerequisite
-
+## Prerequisites
 - Installed cluster
-  - 3 node baremetals that can run virtualization
-  - each node has extra disk for storage
+    - 3 node baremetals that can run virtualization
+    - each node has extra disk or more for storage 
 - Operators
-  - OpenShift Virtualization
-  - LVM Storage (TODO try to automate that installation with the helm chart)
-- `helm` client installed
+    - OpenShift Virtualization
+    - OpenShift GitOps 
 - `oc` client installed
 
-## Install
+## Install the ArgoCD application
 
-- clone this repo
-- install the helm chart
+After ArgoCD (OpenShift GitOps) is ready, apply this manifest that will create the applications which will
+be responsible for the Day-2:
 
 ```console
-helm install migration chart/migartion-cluster-day2 
+oc create -f https://raw.githubusercontent.com/rgolangh/migration-cluster-day2/refs/heads/main/manifest.yaml
 ```
 
-## Initialize the MTV provider
+> [!Note]
+> The argo application is referencing the HEAD of the main branch of the helm chart, and not a version, 
+> because it is quicker and easier to publish changes. when things get stable enough we will shall move to versions.
+
+Initialize the MTV provider
 
 Navigate to the mtv-init application route
 ```console
@@ -41,12 +41,13 @@ Fill in the details of form:
 - vcenter password
 - vcenter url: the url of vcenter, no need to add /sdk in the end
 
-When the form is submitted, follow the job in the default namespace that creates the vddk image and updates the existing 
+When the form is submitted, follow the job in the default namespace that creates the vddk image and updates the existing
 vmware-credentials
 
+Check the vmware provider status, if it is ready we can start migrating VMs
 
-Check the vmware provider to see if it can connect to the vsphere instance.
-```console
-oc get provider -n openshift-mtv
-```
+
+
+
+
 
