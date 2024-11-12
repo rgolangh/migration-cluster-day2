@@ -44,7 +44,7 @@ metadata:
   namespace: openshift-image-registry 
   labels: {{ include "migration-cluster-day2.labels" . | nindent 4 }}
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   accessModes:
   - ReadWriteOnce 
