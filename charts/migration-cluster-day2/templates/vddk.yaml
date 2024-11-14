@@ -68,7 +68,7 @@ spec:
     dockerfile: |
       FROM registry.access.redhat.com/ubi9/ubi-minimal
       ADD http://mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/vddk.tar.gz /vddk.tar.gz
-      RUN microdnf install -y tar gzip
+      RUN microdnf install -y tar gzip file
       RUN tar -zxvf /vddk.tar.gz
       ENTRYPOINT ["cp", "-r", "/vmware-vix-disklib-distrib", "/opt"]
 ---
