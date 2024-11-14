@@ -66,8 +66,9 @@ spec:
       name: "vddk:latest"
   source:
     dockerfile: |
-      FROM registry.access.redhat.com/ubi9/ubi-micro
+      FROM registry.access.redhat.com/ubi9/ubi-minimal
       ADD http://mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/vddk.tar.gz /vmware-vix-disklib-distrib
+      RUN microdnf install -y tar
       RUN tar -zxvf /vmware-vix-disklib-distrib -C /opt
 ---
 apiVersion: image.openshift.io/v1
