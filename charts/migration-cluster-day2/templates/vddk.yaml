@@ -70,6 +70,7 @@ spec:
       ADD http://mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/vddk.tar.gz /vddk.tar.gz
       RUN microdnf install -y tar gzip
       RUN tar -zxvf /vddk.tar.gz
+      ENTRYPOINT ["cp", "-r", "/vmware-vix-disklib-distrib", "/opt"]
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
