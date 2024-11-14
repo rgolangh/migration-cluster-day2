@@ -67,8 +67,8 @@ spec:
   source:
     dockerfile: |
       FROM registry.access.redhat.com/ubi9/ubi-micro
-      ADD http://mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmare/vddk.tar.gz /vmware-vix-disklib-distrib
-      ENTRYPOINT ["cp", "-r", "/vmware-vix-disklib-distrib", "/opt"]
+      ADD http://mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/vddk.tar.gz /vmware-vix-disklib-distrib
+      RUN tar -zxvf /vmware-vix-disklib-distrib -C /opt
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
