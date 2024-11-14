@@ -67,9 +67,9 @@ spec:
   source:
     dockerfile: |
       FROM registry.access.redhat.com/ubi9/ubi-minimal
-      ADD http://mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/vddk.tar.gz /vmware-vix-disklib-distrib
+      ADD http://mtv-init.{{ .Values.mtvOperator.subscription.namespace }}/vmware/vddk.tar.gz /vddk.tar.gz
       RUN microdnf install -y tar gzip
-      RUN tar -zxvf /vmware-vix-disklib-distrib -C /opt
+      RUN tar -zxvf /vddk.tar.gz
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
