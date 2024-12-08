@@ -46,6 +46,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "5"
 spec:
+  storageClassName: lvms-vg1
   accessModes:
   - ReadWriteOnce 
   resources:
